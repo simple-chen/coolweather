@@ -10,6 +10,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * 提供一个工具类来解析和处理这种数据
+ */
 public class Utility {
     /**
      * 解析和处理服务器返回的省级数据
