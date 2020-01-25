@@ -1,7 +1,7 @@
 package com.coolweather.android;
 
-import android.app.DownloadManager;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,19 +12,15 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
 import com.coolweather.android.db.City;
 import com.coolweather.android.db.County;
 import com.coolweather.android.db.Province;
 import com.coolweather.android.util.HttpUtil;
 import com.coolweather.android.util.Utility;
-
 import org.litepal.crud.DataSupport;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -108,6 +104,13 @@ public class ChooseAreaFragment extends Fragment {
                 }else if(currentlevel == LEVEL_CITY){
                     selectedCity = cityList.get(position);
                     queryCounties();
+                }else if (currentlevel == LEVEL_COUNTY){
+                    //从省市县列表跳转到天气界面
+                    String weatherId = countyList.get(position).getWeatherId();
+                    Intent intent = new Intent(getActivity(), WeatherActivity.class);
+                    intent.putExtra("weather_id",weatherId);
+                    startActivity(intent);
+                    getActivity().finish();
                 }
             }
         });
@@ -201,8 +204,8 @@ public class ChooseAreaFragment extends Fragment {
 
     /**
      * 根据传入的地址和类型从服务器上查询省市县数据
-     * @param address
-     * @param county
+     *
+     *
      */
     private void queryFromServer(String address, final String type) {
         showProgressDialog();
