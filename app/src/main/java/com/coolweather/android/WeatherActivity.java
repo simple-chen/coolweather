@@ -5,6 +5,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -25,6 +26,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.coolweather.android.gson.Forecast;
 import com.coolweather.android.gson.Weather;
+import com.coolweather.android.service.AutoUpdateService;
 import com.coolweather.android.util.HttpUtil;
 import com.coolweather.android.util.Utility;
 
@@ -208,6 +210,9 @@ public class WeatherActivity extends AppCompatActivity {
                             editor.apply();
                             showWeatherInfo(weather);
                             loadBingPic();
+                            Intent intent = new Intent(WeatherActivity.this, AutoUpdateService.class);
+                            startService(intent);
+
                         }else{
                             Toast.makeText(WeatherActivity.this,"获取天气信息失败",
                                     Toast.LENGTH_SHORT).show();
@@ -231,7 +236,8 @@ public class WeatherActivity extends AppCompatActivity {
         String degree = weather.now.temperature+"C";
         String weatherInfo = weather.now.more.info;
         titleCity.setText(cityName);
-        titleUpdateTime.setText(degree);
+        titleUpdateTime.setText(updateTime);
+        degreeText.setText(degree);
         weatherInfoText.setText(weatherInfo);
         forecastLayout.removeAllViews();
         //未来几天的天气预报部分使用了一个for循环来处理每天的天气信息，
