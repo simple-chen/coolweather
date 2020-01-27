@@ -12,7 +12,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end"
         android:textColor="#fff"
-        android:text="15"
         android:textSize="60sp"/>
 
     <TextView
@@ -21,6 +20,5 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end"
         android:textColor="#fff"
-        android:text="多云"
         android:textSize="20sp"/>
 </LinearLayout>

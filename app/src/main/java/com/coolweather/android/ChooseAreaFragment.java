@@ -107,10 +107,22 @@ public class ChooseAreaFragment extends Fragment {
                 }else if (currentlevel == LEVEL_COUNTY){
                     //从省市县列表跳转到天气界面
                     String weatherId = countyList.get(position).getWeatherId();
-                    Intent intent = new Intent(getActivity(), WeatherActivity.class);
-                    intent.putExtra("weather_id",weatherId);
-                    startActivity(intent);
-                    getActivity().finish();
+                    //实现切换城市的功能
+                    if (getActivity()instanceof MainActivity){
+                        //instanceof关键字用来判断对象是否属于某一个类的实例   可以判断该碎片是否是在MainActivity中
+                        Intent intent = new Intent(getActivity(), WeatherActivity.class);
+                        intent.putExtra("weather_id",weatherId);
+                        startActivity(intent);
+                        getActivity().finish();
+                    }else if (getActivity()instanceof WeatherActivity){
+                        //如果是在WeatherActivity当中，那么就关闭滑动菜单，显示下拉刷新进度条，然后请求新城市的天气信息
+                        WeatherActivity activity = (WeatherActivity) getActivity();
+                        activity.drawerLayout.closeDrawers();
+                        activity.swipeRefresh.setRefreshing(true);
+                        activity.requestWeather(weatherId);
+
+                    }
+
                 }
             }
         });
@@ -158,7 +170,7 @@ public class ChooseAreaFragment extends Fragment {
     private void queryCities(){
         titleText.setText(selectedProvince.getProvinceName());
         backButton.setVisibility(View.VISIBLE);
-        cityList = DataSupport.where("provinced=?",String.valueOf(selectedProvince
+        cityList = DataSupport.where("provinceId=?",String.valueOf(selectedProvince
         .getId())).find(City.class);
         if (cityList.size()>0){
             dataList.clear();
@@ -182,7 +194,7 @@ public class ChooseAreaFragment extends Fragment {
     private void queryCounties(){
         titleText.setText(selectedCity.getCityName());
         backButton.setVisibility(View.VISIBLE);
-        countyList = DataSupport.where("cityid=?",String.valueOf(selectedCity.getId())).
+        countyList = DataSupport.where("cityId=?",String.valueOf(selectedCity.getId())).
                 find(County.class);
 
         if (countyList.size()>0){
@@ -226,7 +238,7 @@ public class ChooseAreaFragment extends Fragment {
             public void onResponse(Call call, Response response) throws IOException {
                    String responseText = response.body().string();
                    boolean result = false;
-                   if ("provice".equals(type)){
+                   if ("province".equals(type)){
                        result = Utility.handleProvinceResponse(responseText);
                    }else if ("city".equals(type)){
                        result = Utility.handleCityResponse(responseText,selectedProvince.getId());
