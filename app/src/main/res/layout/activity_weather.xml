@@ -15,8 +15,7 @@
             android:id="@+id/drawer_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
-            <android.support.v4.widget.SwipeRefreshLayout
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                 android:id="@+id/swipe_refresh"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -41,7 +40,7 @@
                         <include layout="@layout/suggestion"/>
                     </LinearLayout>
                 </ScrollView>
-            </android.support.v4.widget.SwipeRefreshLayout>
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
             <!--用于作为滑动菜单中显示的内容 因此添加了用于遍历省市县数据的碎片-->
             <fragment

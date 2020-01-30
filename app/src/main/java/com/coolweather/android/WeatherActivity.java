@@ -6,17 +6,14 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.speech.tts.TextToSpeech;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -74,8 +71,7 @@ public class WeatherActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        swipeRefresh = findViewById(R.id.swipe_refresh);
-        swipeRefresh.setColorSchemeResources(R.color.colorPrimary);
+
         if (Build.VERSION.SDK_INT>=21){
             View decorView = getWindow().getDecorView();//拿到当前活动DecorView
             decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|
@@ -97,7 +93,10 @@ public class WeatherActivity extends AppCompatActivity {
         pm25Text=findViewById(R.id.pm25_text);
         comfortText = findViewById(R.id.comfort_text);
         sportText = findViewById(R.id.sport_text);
+        carWashText=findViewById(R.id.car_wash_text);
         drawerLayout = findViewById(R.id.drawer_layout);
+        swipeRefresh = findViewById(R.id.swipe_refresh);
+        swipeRefresh.setColorSchemeResources(R.color.colorPrimary);
         navButton = findViewById(R.id.nav_button);
 
         navButton.setOnClickListener(new View.OnClickListener() {
@@ -233,7 +232,7 @@ public class WeatherActivity extends AppCompatActivity {
         //从weather对象中获取数据 然后显示到相应的控件上
         String cityName = weather.basic.cityName;
         String updateTime = weather.basic.update.updateTime.split(" ")[1];
-        String degree = weather.now.temperature+"C";
+        String degree = weather.now.temperature+"℃";
         String weatherInfo = weather.now.more.info;
         titleCity.setText(cityName);
         titleUpdateTime.setText(updateTime);

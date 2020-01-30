@@ -21,13 +21,10 @@ import okhttp3.Callback;
 import okhttp3.Response;
 
 public class AutoUpdateService extends Service {
-    public AutoUpdateService() {
-    }
 
     @Override
     public IBinder onBind(Intent intent) {
-        // TODO: Return the communication channel to the service.
-        throw new UnsupportedOperationException("Not yet implemented");
+       return null;
     }
 
     @Override
@@ -100,6 +97,5 @@ public class AutoUpdateService extends Service {
             });
 
         }
-
     }
 }
