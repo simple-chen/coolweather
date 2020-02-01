@@ -3,6 +3,7 @@ package com.coolweather.android;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -89,6 +90,7 @@ public class ChooseAreaFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        queryProvinces();
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
 
             @Override
@@ -115,7 +117,7 @@ public class ChooseAreaFragment extends Fragment {
                         startActivity(intent);
                         getActivity().finish();
                     }else if (getActivity()instanceof WeatherActivity){
-                        //如果是在WeatherActivity当中，那么就关闭滑动菜单，显示下拉刷新进度条，然后请求新城市的天气信息
+                        //如果是在WeatherActivity当中，那么就关闭抽屉菜单，显示下拉刷新进度条，然后请求新城市的天气信息
                         WeatherActivity activity = (WeatherActivity) getActivity();
                         activity.drawerLayout.closeDrawers();
                         activity.swipeRefresh.setRefreshing(true);
@@ -140,7 +142,6 @@ public class ChooseAreaFragment extends Fragment {
                 }
             }
         });
-        queryProvinces();
     }
 
 

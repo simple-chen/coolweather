@@ -67,6 +67,8 @@ public class WeatherActivity extends AppCompatActivity {
 
     private TextView sportText;//运动建议
 
+    private String weatherId;//用于记录城市的天气
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,13 +104,13 @@ public class WeatherActivity extends AppCompatActivity {
         navButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawerLayout.openDrawer(GravityCompat.START);//打开滑动菜单
+                drawerLayout.openDrawer(GravityCompat.START);//从左侧打开滑动菜单  ，END是右侧
             }
         });
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String weatherString = prefs.getString("weather",null);
-        final String weatherId;//用于记录城市的天气
+
         if (weatherString !=null){
             //有缓存时直接解析天气数据
             Weather weather = Utility.handleWeatherResponse(weatherString);
@@ -125,6 +127,10 @@ public class WeatherActivity extends AppCompatActivity {
             @Override
             public void onRefresh() {
                 //去调用requestWeather()方法请求天气信息
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(WeatherActivity.this);
+                String weatherString = prefs.getString("weather",null);
+                Weather weather = Utility.handleWeatherResponse(weatherString);
+                weatherId=weather.basic.weatherId;
                 requestWeather(weatherId);
             }
         });
@@ -175,7 +181,7 @@ public class WeatherActivity extends AppCompatActivity {
     public void requestWeather(final String weatherId){
 
         String weatherUrl = "http://guolin.tech/api/weather?cityid=" + weatherId + "&key=bc0418b57b2d4918819d3974ac1285d9";
-        //调用HttpUtil.sendOkHttpRequest（）向该地址发出请求，服务器会将相应城市的天气信息以JSON格式返回
+        //        //调用HttpUtl.sendOkHttpRequest（）向该地址发出请求，服务器会将相应城市的天气信息以JSON格式返回
         HttpUtil.sendOkHttpRequest(weatherUrl, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {

@@ -13,7 +13,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * 提供一个工具类来解析和处理这种数据
+ * 提供一个工具类来解析和处理JSON数据
  */
 public class Utility {
     /**
@@ -29,7 +29,6 @@ public class Utility {
                     province.setProvinceName(provinceObject.getString("name"));
                     province.setProvinceCode(provinceObject.getInt("id"));
                     province.save();
-
                 }
                 return true;
             } catch (JSONException e) {
