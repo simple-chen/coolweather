@@ -162,6 +162,7 @@ public class WeatherActivity extends AppCompatActivity {
                 final String bingPic = response.body().string();
                 SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(
                         WeatherActivity.this).edit();
+                editor.putString("bing_pic",bingPic);
                 editor.apply();
                 runOnUiThread(new Runnable() {
                     @Override
@@ -190,6 +191,7 @@ public class WeatherActivity extends AppCompatActivity {
                     public void run() {
                         Toast.makeText(WeatherActivity.this,"获取天气信息失败",
                                 Toast.LENGTH_SHORT).show();
+                        swipeRefresh.setRefreshing(false);
                     }
                 });
 
